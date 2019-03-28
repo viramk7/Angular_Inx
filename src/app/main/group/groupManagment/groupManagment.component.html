@@ -1,0 +1,158 @@
+<section>
+    <div class="container">
+        <div class="profile_details">
+            <div class="row mb0">
+                <div class="col-md-4">
+                    <div class="white_bg fixhit_auto">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="fix_group">
+                                    <h2 class="title_purple mb0" [ngClass]="{'active': group.id == selectedGroup.id}" *ngFor="let group of groups; let i = index;">
+                                        <a (click)="onSelectGroup(i)">
+                                            <!-- <span class="img-circle purple_bg">1</span> -->
+                                            <span>{{group.name}}</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="white_bg">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2 class="title_green mt15">{{selectedGroup.name}}</h2>
+                            </div>
+                            <div class="col-md-6 mt10 text-right">
+                                <a class="btn btn-border-grn" (click)="inviteUser()">Invite</a>
+                                <a class="btn btn-border-grn ml10" (click)="onEditGroup()">Edit</a>
+                                <a class="btn btn-border-grn ml10" (click)="backToMyProfile()">Back</a>
+                            </div>
+                            <div class="clearfix mt20"></div>
+                            <div class="col-md-3">
+                                <a class="profile_img">
+                                    <img *ngIf="selectedGroup.imageUrl" [src]="selectedGroup.imageUrl" width="130" height="130" alt="Image">
+                                    <img *ngIf="!selectedGroup.imageUrl" src="images/user.png" width="130" height="130" alt="Image">
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="color_blk">{{this.selectedGroup.about}}
+                                    <!-- <br>
+                                    <br>
+                                    <a class="btn btn-thin" href="#investment_group">Members of 2 Groups</a> -->
+                                </p>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="borderbtm">
+                                <div class="row mt30">
+                                    <div class="col-md-12">
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a href="#invites" data-toggle="tab">Invites</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#pendingRequest" data-toggle="tab">Pending Request</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="tab-content group_listing">
+                                                <div class="tab-pane fade in active" id="invites">
+                                                    <div class="hit_auto">
+                                                        <div *ngIf="isInvitationFound; else noInviteFound">
+                                                            <div *ngFor="let invite of applicationList">
+                                                                <div class="row" *ngIf="invite.status == 'Issued'">
+                                                                    <div class="col-md-3 col-sm-12">
+                                                                        <p class="color_blk">{{invite.email}}</p>
+                                                                    </div>
+                                                                    <div class="col-md-9 col-sm-12">
+                                                                        <a class="btn btn-border-grn" (click)="onCancelRequest(invite.userId)">Cancel</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-template #noInviteFound>
+                                                            <div class="row">
+                                                                <h6>No Invitation found</h6>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade in" id="pendingRequest">
+                                                    <div *ngIf="isApplicationFound; else noApplicationFound">
+                                                        <div *ngFor="let application of applicationList">
+                                                            <div class="row" *ngIf="application.status == 'Applied'">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <img *ngIf="application.userDetail?.imageUrlMedium" [src]="application.userDetail.imageUrlMedium" style="max-width: 100px;"
+                                                                        width="100%" height="auto" alt="Image">
+                                                                    <img *ngIf="!application.userDetail?.imageUrlMedium" src="images/placeimg1.png" style="max-width: 100px;" width="100%" height="auto"
+                                                                        alt="Image">
+                                                                </div>
+                                                                <!-- <div class="col-md-3 col-sm-12">
+                                                                    <img *ngIf="application.userDetail?.imageUrlMedium" [src]="application.userDetail.imageUrlMedium" style="max-width: 100px;"
+                                                                        width="100%" height="auto" alt="Image">
+                                                                    <img *ngIf="!application.userDetail?.imageUrlMedium" src="images/placeimg1.png" style="max-width: 100px;" width="100%" height="auto"
+                                                                        alt="Image">
+                                                                </div> -->
+                                                                <div class="col-md-9 col-sm-12">
+                                                                    <p class="color_blk">{{application.email}}</p>
+                                                                    <a class="btn btn-border-grn" (click)="onAcceptRequest(application.id)">Accept</a>
+                                                                    <a class="btn btn-border-grn ml10" (click)="onDeclineRequest(application.id)">Decline</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #noApplicationFound>
+                                                        <div class="row mt20">
+                                                            <h6>No pending request</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt30">
+                                    <div class="col-md-12">
+                                        <h2 class="title_purple">
+                                            <span class="img-circle purple_bg">{{membersList.length}}</span>
+                                            <span *ngIf="membersList?.length == 1; else members">Member in this Group</span>
+                                            <ng-template #members>
+                                                <span>Members in this Group</span>
+                                            </ng-template>
+                                            <!-- <span class="pull-right">
+                                                <a>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </span> -->
+                                        </h2>
+                                        <div class="hit_auto">
+                                            <div class="col-md-3 col-xs-12 text-center" *ngFor="let member of membersList">
+
+                                                <i class="fa fa-trash pull-right trash-circle" title="Remove user from group" (click)="removeUserFromGroup(member.userName)"
+                                                    *ngIf="userInfo.uid != member.id" aria-hidden="true"></i>
+                                                <!-- <img src="images/user.png" width="80" height="80" class="img-circle grn_circle pointer" alt="Image" (click)="onOtherUserProfile(member.id)"> -->
+                                                <img *ngIf="member.imageUrlSmall; else noMemberUrl" [src]="member.imageUrlSmall" width="80" height="80" class="img-circle grn_circle pointer"
+                                                    alt="Image" (click)="onOtherUserProfile(member.id)">
+                                                <ng-template #noMemberUrl>
+                                                    <img src="images/user.png" width="80" height="80" class="img-circle grn_circle pointer" alt="Image" (click)="onOtherUserProfile(member.id)">
+                                                </ng-template>
+                                                <p class="font14 color_gry mt10 mb30 ellipsis">{{member.firstName}}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

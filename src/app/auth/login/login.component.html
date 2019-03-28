@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+    <h4 class="modal-title">Let's go TEAM!</h4>
+</div>
+<div class="modal-body">
+    <form #f="ngForm" (ngSubmit)="onLogin(f)">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <p class="color_grn ">
+                        <span class="pull-left">WELCOME BACK</span>
+                        <span class="pull-right">
+                            <a class="pointer" (click)="onNewAccount()">Don't have an account?</a>
+                        </span>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <input id="userName" type="text" class="validate" name="userName" [(ngModel)]="userData.userName" #userName="ngModel" required
+                            (blur)="userData.userName = trimming_fn(userData.userName)">
+                        <label for="userName">Username/Email</label>
+                        <span class="text-danger" *ngIf="userName.errors?.required && userName.touched">UserName/Email is required</span>
+                    </div>
+                    <div class="input-field">
+                        <input id="password" type="password" class="validate" name="password" [(ngModel)]="userData.password" #password="ngModel"
+                            required>
+                        <label for="password">Password</label>
+                        <span class="text-danger" *ngIf="password.errors?.required && password.touched">Password is required</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="color_grn ">
+                        <span class="pull-right pointer">
+                            <a (click)="onForgotPassword()">Forgot Password?</a>
+                        </span>
+                    </p>
+                </div>
+                <div class="row">
+                    <button class="btn waves-effect waves-light dark_grn full_width" type="submit" [disabled]="f.invalid">Log In</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 
+<div class="modal-footer">
+    <div class="row">
+        <p class="text-center color_gry">or continue with</p>
+    </div>
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="text-center col s2">
+            <a href="#">
+                <img src="images/fb.png" width="40" height="40" align="Image">
+            </a>
+        </div>
+        <div class="text-center col s2">
+            <span class="divider"></span>
+        </div>
+        <div class="text-center col s2">
+            <a href="#">
+                <img src="images/ggl.png" width="40" height="40" align="Image">
+            </a>
+        </div>
+        <div class="col s3"></div>
+    </div>
+</div> -->

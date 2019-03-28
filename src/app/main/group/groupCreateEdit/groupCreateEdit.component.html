@@ -1,0 +1,137 @@
+<!-- <div class="modal fade" id="sign_up" role="dialog">
+  <div class="modal-dialog"> -->
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+    <p class="color_grn font18 mt20 font_uc">
+      <span class="pull-left" *ngIf="group.id; else createGroup">Edit A GROUP</span>
+      <ng-template #createGroup>
+        <span class="pull-left">CREATE A GROUP</span>
+      </ng-template>
+    </p>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form class="col s12" (ngSubmit)="onSave(f)" #f="ngForm">
+        <div class="row">
+          <div class="input-field col s12">
+            <div class="file-upload">
+              <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+            </div>
+            <img-cropper *ngIf="!group.imageUrl || imageFile" #cropper [image]="imageData" [settings]="cropperSettings"></img-cropper>
+            <br>
+            <span class="result rounded" *ngIf="imageData.image">
+              <img [src]="imageData.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+            </span>
+            <span class="result rounded" *ngIf="!imageData.image && group.imageUrl">
+              <img [src]="group.imageUrl" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+            </span>
+          </div>
+
+          <div class="input-field col s12 mt30">
+            <input id="name" type="text" name="name" [(ngModel)]="group.name" class="validate" value="group.name" #name="ngModel">
+            <label [ngClass]="{'active': this.group.id}" for="name">Your group name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="about" type="text" name="about" [(ngModel)]="group.about" class="validate" value="group.about" #name="ngModel">
+            <label [ngClass]="{'active': this.group.id}" for="about">About this group</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6 custom_dropdown">
+            <span class="custom_span">This group is an</span>
+            <select class="form-control" name="groupType" [(ngModel)]="selectedGroupType" id="groupType">
+              <option value="" disabled selected>select group type</option>
+              <option *ngFor="let groupType of groupTypes" [value]="groupType.value" selected>
+                {{groupType.viewGroupValue}}
+              </option>
+            </select>
+          </div>
+          <div class="input-field col s6 custom_dropdown mt20">
+            <p class="color_gry font14" *ngFor="let groupType of groupTypes">
+              <i *ngIf="selectedGroupType == groupType.value">{{groupType.statement}}</i>
+            </p>
+          </div>
+        </div>
+
+        <!-- <span *ngFor="let groupType of groupTypes">
+          <p *ngIf="selectedGroupType == groupType.value">{{groupType.statement}}</p>
+        </span> -->
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <p class="color_gry font14">
+              <i>Lorem ipsum dolor sit amet, consectetur adipisicing elit</i>
+            </p>
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-md-12 col-sm-12 mb20">
+            <p class="color_gry font18 font_uc">
+              <span class="pull-left">Group Visibility</span>
+            </p>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="group_active" [ngClass]="{'active': group.membershipApprovalType == 'GroupAdmin' ||
+                                  group.membershipApprovalType == 'groupAdmin'}" (click)="setGroupVisibility('groupAdmin')">
+              <p class="color_gry font16 mb10 font_uc">
+                <span class="pull-left">
+                  <i class="fa fa-eye-slash"></i> Hidden</span>
+              </p>
+              <p class="mb0">This group is hiddden in member profiles and searches</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="group_active" [ngClass]="{'active': group.membershipApprovalType == 'Automatic' 
+            || group.membershipApprovalType == 'automatic'}" (click)="setGroupVisibility('automatic')">
+              <p class="color_gry font16 mb10 font_uc">
+                <span class="pull-left">
+                  <i class="fa fa-eye"></i> Visible</span>
+              </p>
+              <p class="mb0">This group is dispalyed in member profiles and searches</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 mb20">
+            <p class="color_gry font18 font_uc">
+              <span class="pull-left">Group Invitations</span>
+            </p>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="group_active" [ngClass]="{'active': group.groupInviteType == 'InviteOnly' ||
+            group.groupInviteType == 'inviteOnly'}" (click)="setGroupInviteType('inviteOnly')">
+              <p class="color_gry font16 mb10 font_uc">
+                <span class="pull-left">
+                  <i class="fa fa-user"></i> By group admin only</span>
+              </p>
+              <p class="mb0">Only the group administrators can invite new members</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="group_active" [ngClass]="{'active': group.groupInviteType == 'Public'
+            || group.groupInviteType == 'public'}" (click)="setGroupInviteType('public')">
+              <p class="color_gry font16 mb10 font_uc">
+                <span class="pull-left">
+                  <i class="fa fa-users"></i> Open</span>
+              </p>
+              <p class="mb0 custom_dropdown">
+                <span class="custom_span">All members can invite new members. New members are approved</span>
+              </p>
+              <p class="font14 mt20">
+                <i class="color_gry">New members join upon accepting invite </i>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn waves-effect waves-light dark_grn full_width mb10" type="submit" name="action" *ngIf="group.id; else editGroup">Update Group</button>
+          <ng-template #editGroup>
+            <button class="btn waves-effect waves-light dark_grn full_width mb10" type="submit" name="action">Create Group</button>
+          </ng-template>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<span *ngIf="voteTypeId == 0 || voteTypeId == undefined">
+    <div class="vote_box pointer color_gry active">
+        <span class="trades">
+            <i aria-hidden="true" class="fa fa-close"></i>
+        </span>
+        <span class="trades_text"> No Vote</span>
+    </div>
+</span>
+<span *ngIf="voteTypeId == 1">
+    <span class="trades strong_sell">
+        <!-- <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i> -->
+        <img src="images/sell.png" alt="Image" width="45" height="45">
+    </span>
+    <span class="trades_text sell"> Strong Sell</span>
+</span>
+<span *ngIf="voteTypeId == 2">
+    <span class="trades sell">
+        <!-- <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i> -->
+        <img src="images/sell.png" alt="Image" width="45" height="45">
+    </span>
+    <span class="trades_text sell"> Sell</span>
+</span>
+<span *ngIf="voteTypeId == 3">
+    <span class="trades buy">
+        <img src="images/buy.png" alt="Image" width="45" height="45">
+        <!-- <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i> -->
+    </span>
+    <span class="trades_text buy"> Buy</span>
+</span>
+<span *ngIf="voteTypeId == 4">
+    <span class="trades strong_buy">
+        <img src="images/buy.png" alt="Image" width="45" height="45">
+        <!-- <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i> -->
+    </span>
+    <span class="trades_text buy"> Strong Buy</span>
+</span>

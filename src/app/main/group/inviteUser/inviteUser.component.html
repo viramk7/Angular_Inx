@@ -1,0 +1,40 @@
+<!-- <div class="modal fade" id="sign_up" role="dialog">
+  <div class="modal-dialog"> -->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" (click)="onClose()">&times;</button>
+        <p class="color_grn font18 mt20 font_uc">
+            <span class="pull-left">Invite User</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <form class="col s12" (ngSubmit)="onSave(f)" #f="ngForm">
+                <div class="row">
+                    <div class="input-field col s12 mt30">
+                        <tag-input [(ngModel)]="emailList" [errorMessages]="errorMessages" [validators]="validators" [placeholder]="'Enter emails'"
+                            [addOnPaste]="true" 
+                            [addOnBlur] = "true"
+                            [separatorKeyCodes]="[186, 188, 32]"
+                            [ripple]="false" 
+                            [pasteSplitPattern]="regexp" [secondaryPlaceholder]="'Enter emails'" name="email"
+                            #name="ngModel" required>
+                            <!-- /[\s,;]+/ -->
+                        </tag-input>
+                        <p class="font14 color_gry mt10 mb30 ellipsis">Enter one or more email</p>
+                    </div>
+                </div>
+                <div class="row center">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn waves-effect waves-light dark_grn full_width mb10" type="submit" name="action" [disabled]="f.invalid">Invite</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn waves-effect waves-light dark_grn full_width mb10" type="button" name="action" (click)="onClose()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

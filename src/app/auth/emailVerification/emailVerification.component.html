@@ -1,0 +1,34 @@
+<section>
+    <div class="user_verification_img">
+        <div class="user_verification ">
+            <div class="container">
+                <div class="row modal-dialog middle_section">
+                    <div class="middle_section_content">
+                        <div class="row white_bg_border">
+                            <div class="col-md-12" *ngIf="message==null">
+                                <p class="ellipsis font24 color_purple mb10">Email Verification</p>
+                                <div class="clearfix"></div>
+                                <form #f="ngForm" (ngSubmit)="onVerify(f)">
+                                    <div class="row mb0">
+                                        <div class="input-field">
+                                            <input id="username" type="text" class="validate" name="username" [(ngModel)]="verificationModel.username" #username="ngModel"
+                                                required autocomplete="off">
+                                            <label class="active" for="username">username</label>
+                                            <span class="text-danger" *ngIf="username.errors?.required && username.touched">username is required</span>
+                                        </div>
+                                        <div class="input-field s12 text-center">
+                                            <button class="btn waves-effect waves-light dark_grn_fill" type="submit" [disabled]="f.invalid">Verify</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-12 text-center"  *ngIf="message!=null">
+                                <p class="ellipsis font24 color_purple mb10">{{message}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

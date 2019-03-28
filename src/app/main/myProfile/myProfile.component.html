@@ -1,0 +1,418 @@
+<section>
+    <div class="profile_details">
+        <div class="container">
+            <div class="row mt30">
+                <div class="col-md-8">
+                    <div class="fixhit3">
+                        <div class="transparent_bg">
+                            <div class="col-md-12 mt30 borderbtm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2 class="title_green mt15">My Profile</h2>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-3 text-center">
+                                        <a class="profile_img">
+                                            <img *ngIf="user.imageUrlMedium" src="{{user.imageUrlMedium}}" alt="Image" width="130" height="130">
+                                            <img *ngIf="user.imageUrlMedium == null" src="images/user.png" alt="Image" width="130" height="130">
+                                            <div class="grey_bg_hover myprofile_edit">
+                                                <span class="view_edit" (click)="onEditProfile(user)">
+                                                    <a>
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </a>
+                                        <!-- <img src="images/user.png" alt="Image" width="130" height="130"> -->
+                                    </div>
+                                    <div class="col-md-9 fullwid">
+                                        <h2 class="font24 mb20">{{user.firstName+' '+user.lastName}}</h2>
+                                        <ul class="trophy_rates_left">
+                                            <li *ngFor="let badge of profileBadges" class="img-circle text-center pointer" title="{{badge.badgeName}}: {{badge.badgeDescription}}"
+                                                [popoverTitle]="badge.badgeName" [popover]="badge.badgeDescription" [popoverCloseOnClickOutside]="true"
+                                                popoverPlacement="right">
+                                                <img *ngIf="badge.badgeIconUrl; else defaultTrophy" [src]="badge.badgeIconUrl" alt="Image" width="30" height="">
+                                                <ng-template #defaultTrophy>
+                                                    <img src="images/trophy.png" alt="Image" width="30" height="">
+                                                </ng-template>
+                                            </li>
+                                        </ul>
+                                        <p class="color_blk">{{user.about}}</p>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row col-md-12">
+                                <div class="col-md-12">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a href="#groupTab" data-toggle="tab">My Groups
+                                                        <span (click)="onCreateGroup()" title="Add Group" class="request_count pointer">+</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#requestTab" data-toggle="tab">My Pending Requests
+                                                        <span class="request_count" title="Total pending requests">{{pendingRequests?.length}}</span>
+                                                    </a>
+                                                </li>
+                                                <div class="text-right">
+                                                    <a class="btn btn-border-grn" (click)="onJoinGroup()">Join Group</a>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="tab-content group_listing">
+                                                <div class="tab-pane fade in active" id="groupTab">
+                                                    <div class="row mt20 inner_mobi_scroll" *ngIf="groups.length > 0; else noGroupFound">
+                                                        <div class="col-md-4 text-center" *ngFor="let group of groups">
+                                                            <div class="grey_bg_hover" [ngClass]="{'active': groupData.id == group.id}">
+                                                                <span class="view_edit" (click)="onEditGroup(group)" *ngIf="managers && managers.includes(group.id)">
+                                                                    <a>
+                                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </span>
+                                                                <span (click)="onGroupDetail(group.id)">
+                                                                    <img *ngIf="group.imageUrl !=''" [src]="group.imageUrl" alt="Image" class="mb20 pointer" height="70">
+                                                                    <img *ngIf="group.imageUrl ==''" src="images/placeimg.png" alt="Image" class="mb20 pointer" height="70">
+                                                                    <p class="color_blk mb0">{{group.name}}
+                                                                    </p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #noGroupFound>
+                                                        <div class="row mt20">
+                                                            <h6>You are not member of any group, create one or join one!</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                                <div class="tab-pane fade" id="requestTab">
+                                                    <div class="row mt20" *ngIf="pendingRequests?.length>0; else noRequestFound">
+                                                        <div class="fixhit1 fixhit_auto">
+                                                            <div *ngFor="let pendingRequest of pendingRequests">
+                                                                <div class="col-md-12" *ngIf="pendingRequest.status == 'Issued' || pendingRequest.status == 'Applied'">
+                                                                    <div class="col-md-4 col-sm-4">
+                                                                        <a>
+                                                                            <img *ngIf="!pendingRequest.groupImageUrl" src="images/placeimg1.png" width="100%" height="auto" alt="Image" style="max-width: 150px;">
+                                                                            <img *ngIf="pendingRequest.groupImageUrl" src="{{pendingRequest.groupImageUrl}}" width="100%" height="auto" alt="Image" style="max-width: 150px;">
+                                                                        </a>
+
+                                                                    </div>
+                                                                    <div class="col-md-8 col-sm-8">
+                                                                        <p class="small" *ngIf="pendingRequest.status == 'Issued'">You've been invited to join</p>
+                                                                        <p class="small" *ngIf="pendingRequest.status == 'Applied'">Your request to join</p>
+                                                                        <p class="color_blk">{{pendingRequest.groupName}}
+                                                                            <a class="ml10 btn btn-thin" *ngIf="pendingRequest.status == 'Applied'">Pending</a>
+                                                                        </p>
+                                                                        <a class="btn btn-border-grn" *ngIf="pendingRequest.status == 'Issued'" (click)="onAcceptRequest(pendingRequest.id)">Accept</a>
+                                                                        <a class="btn btn-border-grn ml10" *ngIf="pendingRequest.status == 'Issued'" (click)="onDeclineRequest(pendingRequest.id)">Decline</a>
+                                                                        <a class="btn btn-border-grn ml10" *ngIf="pendingRequest.status == 'Applied'" (click)="onCancelRequest(pendingRequest.id)">Cancel</a>
+                                                                    </div>
+                                                                    <div class="clearfix mb30"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #noRequestFound>
+                                                        <div class="row mt20">
+                                                            <h6>No pending request</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="white_bg fixhit3 fixhit_auto">
+                        <div class="row">
+                            <div class="white_bg">
+                                <a>
+                                    <img src="images/placeimg.png" width="100%" class="img-responsive" alt="Image">
+                                </a>
+                            </div>
+
+                            <div class="white_bg">
+                                <a>
+                                    <img src="images/placeimg.png" width="100%" class="img-responsive" alt="Image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="groups.length > 0">
+                <div class="col-md-8">
+                    <div class="fixhit3">
+                        <div class="transparent_bg">
+                            <div class="col-md-12 mt30 borderbtm">
+                                <div class="col-md-6 custom_dropdown">
+                                    <h2 class="title_green">{{groupData.name}}</h2>
+                                    <div class="form-group">
+                                        <select class="form-control" [(ngModel)]="selectedGameType" id="gameType" (change)="onGetGameId($event.target.value)">
+                                            <option value="" disabled selected>Select game type</option>
+                                            <option *ngFor="let gameType of gameTypes" [value]="gameType.value">{{gameType.viewValue}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <ul class="trophy_rates">
+                                        <li *ngFor="let badge of groupBadges" class="img-circle text-center" title="{{badge.badgeName}}: {{badge.badgeDescription}}"
+                                            [popoverTitle]="badge.badgeName" [popover]="badge.badgeDescription" [popoverCloseOnClickOutside]="true"
+                                            popoverPlacement="bottom">
+                                            <img *ngIf="badge.badgeIconUrl; else defaultTrophy" [src]="badge.badgeIconUrl" alt="Image" width="30" height="">
+                                            <ng-template #defaultTrophy>
+                                                <img src="images/trophy.png" alt="Image" width="30" height="">
+                                            </ng-template>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="clearfix "></div>
+                                <div class="row mt30">
+                                    <div class="col-md-3 text-center">
+                                        <img *ngIf="groupData.imageUrl; else noGroupImage" [src]="groupData.imageUrl" width="100" height="auto" alt="Image">
+                                        <ng-template #noGroupImage>
+                                            <img src="images/placeimg.png" width="100" height="auto" alt="Image">
+                                        </ng-template>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="row" *ngFor="let insight of insightProfile">
+                                            <div class="col-md-4 text-center">
+                                                <h3 class="title_purple scroll-overflow">{{insight.value | currency:"CAD":"symbol-narrow"}}</h3>
+                                                <small class="color_gry upcase">Your Portfolio Value</small>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <h3 class="title_purple">{{insight.aggregateVotes | number : '1.2-2'}}%</h3>
+                                                <small class="color_gry upcase">Return</small>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <h3 class="title_purple">{{insight.rank | ordinal}}</h3>
+                                                <small class="color_gry upcase">Ranked</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row col-md-12">
+                                <div class="col-md-12">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a href="#votesTab" data-toggle="tab">My Votes</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#recommendationTab" data-toggle="tab" (click)="getGroupInsight(groupId)">Insight</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade in active" id="votesTab">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p>
+                                                                <a class="btn btn-border-grn pull-right" (click)="onAddVote()">Add Vote</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span *ngIf="userGroupVotes.length > 0; else noMyVoteFound">
+                                                        <div class="row">
+                                                            <div class="col-md-12 table-responsive">
+                                                                <table class="table mt10">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="text-left">Stock</th>
+                                                                            <th class="text-center">Vote</th>
+                                                                            <th class="text-right">Today's Change</th>
+                                                                            <th class="text-right">Portfolio</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <div>
+                                                                            <popover-content #myPopover [closeOnClickOutside]="true">
+                                                                                <span *ngIf="isShowPopover">
+                                                                                    <b>Name:</b> {{stockData.name}}
+                                                                                    <br>
+                                                                                    <b>Exchange:</b> {{stockData.exchange}}
+                                                                                    <br>
+                                                                                    <b>Industry:</b> {{stockData.industry}}
+                                                                                </span>
+                                                                            </popover-content>
+                                                                        </div>
+                                                                        <tr *ngFor="let vote of userGroupVotes; let i = index" (click)="getSearchStock(vote.stockSymbol)" class="pointer" [popoverCloseOnClickOutside]="true"
+                                                                            [popover]="myPopover" popoverPlacement="bottom">
+                                                                            <td>
+                                                                                <strong>{{vote.symbol}}</strong>
+                                                                                <br>
+                                                                                <small>{{vote.companyName}}</small>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <app-vote-type [voteTypeId]="vote.voteDetail?.voteVoteType"></app-vote-type>
+                                                                            </td>
+                                                                            <td class="text-right" *ngIf="vote.voteDetail?.stockDelta != null; else noStockDelta">{{vote.voteDetail?.stockDelta}}%</td>
+                                                                            <ng-template #noStockDelta>
+                                                                                <td class="text-right">-</td>
+                                                                            </ng-template>
+                                                                            <td class="text-right" *ngIf="vote.voteDetail?.portfolioValue != null; else noPortfolioValue">{{vote.voteDetail?.portfolioValue | currency:"CAD":"symbol-narrow"}}</td>
+                                                                            <ng-template #noPortfolioValue>
+                                                                                <td class="text-right">-</td>
+                                                                            </ng-template>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                    <ng-template #noMyVoteFound>
+                                                        <div class="row mt20">
+                                                            <h6>No Votes found!</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                                <div class="tab-pane fade" id="recommendationTab">
+                                                    <span *ngIf="insightData.length > 0; else noRecommendationFound">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p>{{insightData[0].userFirstName}}, you prefer to {{insightData[0].tradeStrategyName}}
+                                                                    in
+                                                                    <span class="color_blk">{{insightData[0].stockSectorName}} </span>stocks, but
+                                                                    you are most profitable when {{insightData[1].tradeStrategyName}}
+                                                                    in {{insightData[1].stockSectorName}}
+                                                                    <span class="color_blk">{{insightData[1].stockSectorName}}</span>.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p class="">This strategy you used the most:</p>
+                                                                <a class="btn btn-thin" href="#investment_group">{{insightData[0].stockSectorName + ' '+ insightData[0].tradeStrategyName}}
+                                                                </a>
+                                                                <table class="table mt30">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>User Image</th>
+                                                                            <th>Stock</th>
+                                                                            <th>Vote</th>
+                                                                            <th>Today's Change</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let vote1 of bestVote1; let i = index">
+                                                                            <td>
+                                                                                <img *ngIf="vote1.userDetail?.imageUrlSmall" [src]="vote1.userDetail?.imageUrlSmall" width="50" height="50" class="img-circle grn_circle pointer"
+                                                                                    alt="Image"><br>
+                                                                                    <small>{{vote1.userFirstName}}</small>
+                                                                            </td>
+                                                                            <td>
+                                                                                <strong>{{vote1.stockSymbol}}</strong>
+                                                                                <br>
+                                                                                <small>{{vote1.stockCompanyName}}</small>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <app-vote-type [voteTypeId]="vote1.voteVoteType"></app-vote-type>
+                                                                            </td>
+                                                                            <td class="text-right">{{vote1.stockDelta | number : '1.2-2'}}%</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <p class="">This is what you are best at:</p>
+                                                                <a class="btn btn-thin" href="#investment_group">{{insightData[1].stockSectorName + ' '+ insightData[1].tradeStrategyName}}</a>
+                                                                <table class="table mt30">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>User Image</th>
+                                                                            <th>Stock</th>
+                                                                            <th>Vote</th>
+                                                                            <th>Today's Change</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let vote2 of bestVote2">
+                                                                            <td>
+                                                                                <img *ngIf="vote2.userDetail?.imageUrlSmall" [src]="vote2.userDetail?.imageUrlSmall" width="50" height="50" class="img-circle grn_circle pointer"
+                                                                                    alt="Image"><br>
+                                                                                <small>{{vote2.userFirstName}}</small>
+                                                                            </td>
+                                                                            <td>
+                                                                                <strong>{{vote2.stockSymbol}}</strong>
+                                                                                <br>
+                                                                                <small>{{vote2.stockCompanyName}}</small>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <app-vote-type [voteTypeId]="vote2.voteVoteType"></app-vote-type>
+                                                                            </td>
+                                                                            <td class="text-right">{{vote2.stockDelta | number : '1.2-2'}}%</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                    <ng-template #noRecommendationFound>
+                                                        <div class="row mt20">
+                                                            <h6>No Insights to show!</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="white_bg fixhit3 fixhit_auto">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="title_purple">
+                                    <span class="img-circle purple_bg">{{selectedGroupMember?.length}}</span>
+                                    <span *ngIf="selectedGroupMember?.length == 1; else members">Member in this Group</span>
+                                    <ng-template #members>
+                                        <span>Members in this Group</span>
+                                    </ng-template>
+                                    <!-- <span class="pull-right">
+                                        <a>
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </span> -->
+                                </h2>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="hit_auto">
+                                <div class="col-md-4 col-xs-12 text-center" *ngFor="let member of selectedGroupMember">
+                                    <a>
+                                        <img *ngIf="member.imageUrlSmall; else noMemberUrl" [src]="member.imageUrlSmall" width="80" height="80" class="img-circle grn_circle pointer"
+                                            alt="Image" (click)="onOtherUserProfile(member.id)">
+                                        <ng-template #noMemberUrl>
+                                            <img src="images/user.png" width="80" height="80" class="img-circle grn_circle pointer" alt="Image" (click)="onOtherUserProfile(member.id)">
+                                        </ng-template>
+                                        <p class="font14 color_gry mt10 mb30 ellipsis">{{member.firstName}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="white_bg">
+                                <a>
+                                    <img src="images/placeimg.png" width="100%" class="img-responsive" alt="Image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

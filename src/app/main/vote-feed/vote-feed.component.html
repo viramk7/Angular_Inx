@@ -1,0 +1,158 @@
+<section>
+    <div class="profile_details">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="fixhit_newsfeed">
+                        <div class="lightgreen_bg">
+                            <div class="col-md-3 middle_box">
+                                <p class="color_grn font20 mb10">Latest Activity</p>
+                                <h2 class="mb0 font16">{{selectedGroup.name}}</h2>
+                            </div>
+                            <div class="col-md-7 middle_box">
+                                <div class="lightgreen_grey_bg" style="max-width: 700px;">
+
+                                    <swiper [config]="config" [initialize]="isShowSlider" #usefulSwiper>
+                                        <!-- <div class="swiper-container swiper-container1"> -->
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide" *ngFor="let group of groups; let i = index">
+                                                <div class="fix_img_slide text-center">
+                                                    <a>
+                                                        <p class="ellipsis mt15">{{group.name}}</p>
+                                                        <img *ngIf="group.imageUrl; else noGroupImage" [src]="group.imageUrl" alt="Image" class="img-responsive pointer" height="60"
+                                                            style="max-height: 60px; margin: 0 auto;" (click)="setGroup(i)">
+                                                        <ng-template #noGroupImage>
+                                                            <img src="images/placeimg1.png" alt="Image" class="img-responsive pointer" height="60" style="max-height: 60px; margin: 0 auto;"
+                                                                (click)="setGroup(i)">
+                                                        </ng-template>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-button-prev text-left pull-left mt10">
+                                            <span class="view_edit text-center">
+                                                <a>
+                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="swiper-button-next text-right pull-right mt10">
+                                            <span class="view_edit text-center">
+                                                <a>
+                                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="swiper-pagination bullets_static"></div>
+                                        <!-- </div> -->
+                                    </swiper>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-center middle_box">
+                                <a class="btn btn-border-grn">See All Groups</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <span [hidden]="!selectedGroup.id">
+                        <app-add-vote-feed [user]="user" [selectedGroup]="selectedGroup"></app-add-vote-feed>
+                        <app-feed-list #appFeedList [selectedGroup]="selectedGroup"></app-feed-list>
+                    </span>
+                </div>
+                <div class="col-md-4" *ngIf="!selectedGroup.id">
+                    <div class="white_bg">
+                        <h2 class="title_purple">
+                            <span>About This Page</span>
+                        </h2>
+                        <p class="mb30">This is the investment feed page. On this page, you can see all the activity from each group you've
+                            joined. You can view investment choices, comments, and any recognition of a group member. Currently
+                            you are viewing all activity from all of your groups, but you can choose any group above to see
+                            activity within an individual group.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="selectedGroup.id">
+                    <div class="white_bg">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="grey_bg_hovernone">
+                                    <span class="view_edit text-center pointer" (click)="onEditGroup(selectedGroup)" 
+                                    *ngIf="man && man.includes(selectedGroup.id)">
+                                        <a>
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                    <img *ngIf="selectedGroup.imageUrl" src="{{selectedGroup.imageUrl}}" alt="Image" height="140" class="">
+                                    <img *ngIf="selectedGroup.imageUrl == ''" src="images/placeimg.png" alt="Image" width="130" height="140">
+                                </div>
+                                <h2 class="title_green">{{selectedGroup.name}}</h2>
+                                <p class="mb30">
+                                    <a class="btn btn-border-grn full_width" *ngIf="man && man.includes(selectedGroup.id)" (click)="inviteUser()">Invite</a>
+                                </p>
+                            </div>
+                            <div class="col-md-12">
+                                <h2 class="title_purple">
+                                    <span>About This group</span>
+                                </h2>
+                                <p class="mb30">{{selectedGroup.about}}</p>
+                            </div>
+                            <div class="col-md-12" *ngIf="managers.length>0">
+                                <h2 class="title_purple">
+                                    <span>Organizers</span>
+                                </h2>
+                            </div>
+                            <div class="row" *ngIf="managers.length>0">
+                                <div *ngFor="let manager of managers" class="col-md-4 col-xs-12 text-center">
+                                    <a>
+                                        <img *ngIf="manager.imageUrlSmall else noUserImageFound" [src]="manager.imageUrlSmall" class="img-circle grn_circle" alt="Image"
+                                            width="80" height="80">
+                                        <ng-template #noUserImageFound>
+                                            <img src="images/user.png" class="img-circle grn_circle" alt="Image" width="80" height="80">
+                                        </ng-template>
+                                        <p class="font14 color_gry mt10">{{manager.firstName}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h2 class="title_purple grn_circle_icn">
+                                    <span>Members</span>
+                                    <!-- <span class="pull-right">
+                                        <a>
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </span> -->
+                                </h2>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="members_auto">
+                                <div class="col-md-4 col-xs-12 text-center" *ngFor="let member of selectedGroupMember">
+                                    <a>
+                                        <img *ngIf="member.imageUrlSmall; else noMemberUrl" [src]="member.imageUrlSmall" width="80" height="80" class="img-circle grn_circle pointer"
+                                            alt="Image" (click)="onOtherUserProfile(member.id)">
+                                        <ng-template #noMemberUrl>
+                                            <img src="images/user.png" width="80" height="80" class="img-circle grn_circle pointer" alt="Image" (click)="onOtherUserProfile(member.id)">
+                                        </ng-template>
+
+                                        <p class="font14 color_gry mt10 mb30">{{member.firstName}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-12 col-xs-12 text-right">
+                                <h2 class="title_green grn_circle_icn">
+                                    <small>... and 182 more</small>
+                                    <span class="pull-right">
+                                        <a>
+                                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </h2>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

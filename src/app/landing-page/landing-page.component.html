@@ -1,0 +1,111 @@
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default" id="head_fix">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="images/logo.png" width="340" class="img-responsive" style="" alt="Image"></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse"> 
+        <ul class="nav navbar-nav navbar-right"> 
+          <li><a (click)="onLogin()">Log In</a></li>
+          <li><a class="btn btn-border" (click)="onSignUp()">Sign Up</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+  <section>
+    <div class="banner_img">
+      <div class="banner">
+        <div class="container">   
+          <div class="row">
+            <div class="col-md-6">
+              <h1>The hub for investment clubs meetups & groups</h1> 
+              <a class="btn btn-fill color_purple" (click)="scrollToDescription(description)" id="#investment_group">Learn More</a>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </section> 
+  <section #description>
+    <div class="investment_group">
+      <div class="container"> 
+        <div class="investment_group_bg" id="investment_group">
+          <div class="row">
+            <div class="col-md-12 col-sm-12" >
+              <h2>Vote, Collaborate, Compare</h2>
+              <p class="color_gry subtitle">A TOOL FOR YOUR INVESTMENT GROUP</p>
+            </div>
+            <div class="col-md-3 col-sm-12">
+              <div class="compare_section">
+                <div class="col-md-12 text-center">
+                  <img src="images/img1.png" width="180" height="180" align="Image" class="img-circle">
+                  <h3 class="color_gry">Stock Meetup Groups</h3>
+                </div> 
+                <div class="clearfix">
+                  <p>Move your meetup from theory to practice. With a stock election group, members can vote for different stocks, and track the performance of each member’s strategy.</p>
+                </div>
+                <div class="text-center">
+                  <img src="images/placeimg.png" align="Image" class="img-responsive text-center mb20"> 
+                </div> 
+                <div class="clearfix">
+                  <p>Voting engineered for ease of use. Make your picks at home or on the go with your mobile device.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+              <div class="compare_section">
+                <div class="col-md-12 text-center">
+                  <img src="images/img2.png" width="180" height="180" align="Image" class="img-circle">
+                  <h3 class="color_gry">Investment Education</h3>
+                </div> 
+                <div class="clearfix">
+                  <p> Collaborate with your group to help educate your members. Your stock picks will be seen by the entire group and you can comment on stock picks to give insight to others.<br><br>Once you vote, our system calculates your performance and ranks you with your counterparts. This ranking allows users to see their investment plans work!</p>
+                </div>
+                <div class="text-center">
+                  <img src="images/placeimg.png" align="Image" class="img-responsive text-center mb20"> 
+                </div>                    
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+              <div class="compare_section">
+                <div class="col-md-12 text-center">
+                  <img src="images/img3.png" width="180" height="180" align="Image" class="img-circle">
+                  <h3 class="color_gry">Investment Clubs</h3>
+                </div> 
+                <div class="clearfix">
+                  <p>Are you still asking your members to raise their hands to vote for a stock purchase? Are your members only talking once a quarter at your investment club meetup?<br><br>Now you can keep your members engaged with our stock ranking system. Use it to see which stocks are popular with your group. You can start your meeting knowing which stock is at the top.</p>
+                </div>
+                <div class="text-center">
+                  <img src="images/placeimg.png" align="Image" class="img-responsive text-center mb20"> 
+                </div>                    
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+              <div class="compare_section">
+                <div class="col-md-12 text-center">
+                  <img src="images/img4.png" width="180" height="180" align="Image" class="img-circle">
+                  <h3 class="color_gry">Just for Fun</h3>
+                </div> 
+                <div class="clearfix">
+                  <p>March madness? Try earnings season! Have fun with friends and co-workers in your very own stock game.<br><br>Share strategies with just one click and compete for bragging rights and prizes. It doesn't take a PhD in Economics to do well, just choose a company with your favorite brands and products. Have a good laugh at the water cooler with each big move in the markets.</p>
+                </div>
+                <div class="text-center">
+                  <img src="images/placeimg.png" align="Image" class="img-responsive text-center mb20"> 
+                </div>                    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+<app-footer></app-footer>

@@ -1,0 +1,22 @@
+<form #f="ngForm">
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                {{title}}
+            </div>
+        </div>
+        <div class="row" *ngIf="isShowInput">
+            <div class="input-field col s12 mt30">
+                <input id="reasonName" type="text" name="reasonName" [(ngModel)]="reason" class="validate" #reasonName="ngModel">
+                <label for="reasonName">Comment</label>
+            </div>
+        </div>
+    </div>
+    <!--end-->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-border-grn" (click)="cancel()">
+            <i class="fa fa-times">&nbsp;</i>No</button>
+        <button type="button" class="btn btn-border-grn" (click)="acceptRecord();">
+            <i class="fa fa-check">&nbsp;</i>Yes</button>
+    </div>
+</form>

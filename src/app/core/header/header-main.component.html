@@ -1,0 +1,98 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <!-- <span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span> -->
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+                <img src="images/logo.png" width="340" class="img-responsive" style="" alt="Image">
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse web_toggle">
+            <div class="nav navbar-nav navbar-right">
+                <ul class="right_nav">
+                    <li>
+                        <a (click)="onMyProfile()">
+                            <img *ngIf="user?.imageUrlMedium" [src]="user.imageUrlMedium" class="img-circle grn_circle" alt="user_profile" width="50" height="50">
+                            <img *ngIf="!user.imageUrlMedium" src="images/user.png" class="img-circle grn_circle" alt="user_profile" width="50" height="50">
+                            <span class="font18 ml10" (click)="onMyProfile()">Hello {{user.firstName}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="main-nav">
+                            <!-- <a class="hamburger-nav" ></a>
+                            <button class="navbar-toggler" id="burger-menu" [ngClass]="{'is-active': isMenuOpen}" (click)="toggleMenu()" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button> -->
+                            <button mat-icon-button [matMenuTriggerFor]="matMenu">
+                                <mat-icon>
+                                    <span class="hamburger-inner"></span>
+                                </mat-icon>
+                            </button>
+                            <mat-menu #matMenu="matMenu">
+                                <button mat-menu-item routerLink="/main/voteFeed" routerLinkActive="mat-custom-active"
+                                    *ngIf="userInfo.mem">
+                                    <mat-icon>
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                    </mat-icon>
+                                    <span>Home</span>
+                                </button>
+                                <button mat-menu-item *ngIf="userInfo.man" routerLink="/main/groupManagment" routerLinkActive="mat-custom-active">
+                                    <mat-icon>
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                    </mat-icon>
+                                    <span> Group Management</span>
+                                </button>
+                                <button mat-menu-item routerLink="/main/myProfile" routerLinkActive="mat-custom-active">
+                                    <mat-icon>
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    </mat-icon>
+                                    <span> My Profile</span>
+                                </button>
+                                <button mat-menu-item routerLink="/home" routerLinkActive="mat-custom-active">
+                                    <mat-icon>
+                                        <i class="fa fa-power-off" aria-hidden="true"></i>
+                                    </mat-icon>
+                                    <span>Logout</span>
+                                </button>
+                            </mat-menu>
+                            <ul class="menu" id="menu-list">
+                                <li>
+                                    <a (click)="onVoteFeed()">
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a *ngIf="userInfo.man" (click)="onGroupManagment()">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        Group Management
+                                    </a>
+                                </li>
+                                <li>
+                                    <a (click)="onMyProfile()">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a (click)="onLogout()">
+                                        <i class="fa fa-power-off" aria-hidden="true"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

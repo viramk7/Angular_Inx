@@ -1,0 +1,34 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+    <p class="color_grn font18 mt20 font_uc">
+      <span class="pull-left">Join Group</span>
+    </p>
+  </div>
+  <div class="modal-body">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="row">
+        <!-- <div class="input-field">
+          <input id="group" type="text" class="validate" name="group.name">
+          <label for="group">Group</label>
+        </div> -->
+        <div class="input-field col s12">
+          <ng2-completer name="grpName" value="groupName.name" 
+          [(ngModel)]="groupName.name" 
+          [datasource]="groupList"
+          [minSearchLength]="2" 
+          [placeholder]="'Search for group name'" 
+          (selected)="onGroupSelected($event)"  
+          [textSearching]="'Please wait...'"
+          [inputClass]="(grpName.valid) ? 'form-control' : 'form-control form-control-inline'" 
+          #grpName="ngModel"
+          required></ng2-completer>
+          <div *ngIf="!grpName.valid && grpName.touched" class="text-danger">Group name is required</div>
+      </div>
+      </div>
+      <div class="row">
+        <button class="btn waves-effect waves-light dark_grn full_width" type="submit" [disabled]="f.invalid">Join Now</button>
+      </div>
+    </form>
+  </div>
+</div>

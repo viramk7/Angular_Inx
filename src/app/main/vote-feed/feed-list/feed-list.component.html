@@ -1,0 +1,208 @@
+<div class="fixhit_newsfeed mb10" *ngFor="let feed of feedListData">
+    <div class="transparent_bg">
+        <div class="row white_bg_border">
+            <div class="col-md-4">
+                <div class="profile_fix">
+                    <a>
+                        <img *ngIf="feed.userDetail?.imageUrlMedium else noUserImage" [src]="feed.userDetail.imageUrlMedium" class="img-circle grn_circle"
+                            alt="Image" width="50" height="50">
+                        <ng-template #noUserImage>
+                            <img src="images/user.png" class="img-circle grn_circle" alt="Image" width="50" height="50">
+                        </ng-template>
+                    </a>
+                </div>
+                <div class="profile_fix_content">
+                    <span class="font18 ellipsis">
+                        <a>{{feed.userDetail?.firstName}}</a>
+                        <br>
+                        <small class="color_gry">{{feed.createdUtcTimestamp}}</small>
+                    </span>
+                </div>
+            </div>
+            <!-- Not in scope -->
+            <!-- <div class="col-md-6">
+                <div class="clearfix mt10">
+                    <div class="profile_fix_small">
+                        <span class="img-circle">
+                            <img src="images/trophy.png" alt="Image" width="15">
+                        </span>
+                    </div>
+                    <div class="profile_fix_content_small">
+                        <p class="font18 ellipsis mb0">Ranked 1st for Quater in Financials</p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-2"></div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- <div class="col-md-12">
+            <div class="grey_bg_votedetail col-md-5 col-sm-12">
+                <p class="mb5 font16" style="margin-top: 5px;">
+                    <span class="font16">19.02</span>
+                    <span class="ml10 font14 color_red">-1.47 (-7.17%)</span>
+                </p>
+                <p class="mb5 font16">
+                    <span class="font16">After Hours: 19.08</span>
+                    <span class="ml10 font14 color_grn">+0.06 (0.32%)</span>
+                </p>
+                <p class="mb5 font16">
+                    <span class="font16">19.02</span>
+                    <span class="ml10 font14 color_red">-1.47 (-7.17%)</span>
+                </p>
+                <p class="font16 color_gry fwnormal">
+                    <small class="pull-left">NYSE real-time data - Desclaimer</small>
+                    <small class="pull-right">Currency ub USD</small>
+                </p>
+            </div>
+        </div> -->
+        <div class="col-md-12 mt20 mb30">
+            <div class="col-md-4 text-left">
+                <h2 class="mb0 font20">Stock name
+                    <p class="clearfix color_purple mb0 mt10 font16">Exchange</p>
+                </h2>
+            </div>
+            <div class="col-md-3 text-left">
+                <!-- <span class="trades strong_buy">
+                        <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i>
+                    </span>
+                    <span class="trades_text buy"> Strong Buy</span> -->
+                <app-vote-type [voteTypeId]="feed.feedData.VoteType"></app-vote-type>
+            </div>
+            <div class="col-md-5 text-center"></div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 mt20">
+                <p class="mt10">{{feed.feedData.comment}}</p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <a class="pull-left">
+                        <span class="title_purple total_like">
+                            <span class="img-circle">
+                                <i class="material-icons">thumb_up</i>
+                            </span>
+                            {{feed.likes}}
+                        </span>
+                        <span class="title_purple total_like">
+                            <span class="img-circle">
+                                <i class="material-icons">thumb_down</i>
+                            </span>
+                            {{feed.dislikes}}
+                        </span>
+                    </a>
+                </div>
+                <div class="col-md-10 total_comment">
+                    <button class="btn btn-border-gry" (click)="likeVoteFeed(true, feed.id)">
+                        <i class="material-icons">thumb_up</i> Like</button>
+                    <button class="btn btn-border-gry" (click)="likeVoteFeed(false, feed.id)">
+                        <i class="material-icons">thumb_down</i> Dislike</button>
+                    <button class="btn btn-border-gry" (click)="showComment(feed)">
+                        <i class="material-icons">comment</i> Comment</button>
+                    <button class="btn btn-border-gry" (click)="getReplies(feed)">
+                        <i class="material-icons">style</i> replies</button>
+                    <!-- Display only if feed type = votingEvent -->
+                    <button class="btn btn-border-gry" *ngIf="feed.feedType == 'VotingEvent'">
+                        <i class="material-icons">style</i> Vote</button>
+                    <button class="btn btn-border-gry" (click)="onIninappropriate(feed.id)">
+                        <i class="material-icons">style</i> Mark as Inappropriate</button>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="feed.isShowComment==true">
+                <div class="input-field col-md-12 col-sm-12">
+                    <input id="newComment" class="form-control" type="text" name="newComment" [(ngModel)]="feed.newComment">
+                    <label for="newComment" class="col-md-12">Comments</label>
+                    <button class="btn btn-border-gry" (click)="onCommentFeed(feed)">
+                        Add</button>
+                    <button class="btn btn-border-gry" (click)="cancelComment(feed)">
+                        Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix mb10">
+    <div class="fixhit_newsfeed wid50 pull-left">
+        <div class="col-md-12 mt20 mb20">
+            <div class="profile_fix_img100">
+                <a>
+                    <img src="images/user.png" alt="Image" width="80" height="80">
+                </a>
+            </div>
+            <div class="profile_fix_content100">
+                <p class="font16 fw500 mb5">
+                    <a>Lorem ipsum dolor sit amet, consec tetur adipisicing elit eiusmod.</a>
+                </p>
+                <p class="font14 fwnormal mb0 color_gry">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
+                <p class="font16 mb0 color_gry">
+                    <small>11:55 a.m. Today</small>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="fixhit_newsfeed wid50 pull-right">
+        <div class="col-md-12 mt20 mb20">
+            <div class="profile_fix_img100">
+                <a>
+                    <img src="images/user.png" alt="Image" width="80" height="80">
+                </a>
+            </div>
+            <div class="profile_fix_content100">
+                <p class="font16 fw500 mb5">
+                    <a>Lorem ipsum dolor sit amet, consec tetur adipisicing elit eiusmod.</a>
+                </p>
+                <p class="font14 fwnormal mb0 color_gry">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
+                <p class="font16 mb0 color_gry">
+                    <small>11:55 a.m. Today</small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixhit_newsfeed mb10">
+    <div class="purple_bg">
+        <div class="col-md-12 mt20 mb30">
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="">
+                        <img src="images/logo.png" width="150" alt="Image">
+                    </a>
+                    <p class="color_gry mt10 mb font14">4 hours ago</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="profile_fix_profile">
+                        <span class="img-circle">
+                            <img src="images/trophy.png" alt="Image" width="45">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <p class="font24 fwnormal color_white">Lorem ipsum dolor sit adipisicing elit, sed do eiusmod amet, consectetur eiusmod
+                        <a class="color_lightgrn">Here</a>
+                    </p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <a class="pull-left color_white font18">
+                        <span class="color_white total_like">
+                            <span class="img-circle">
+                                <i class="material-icons">thumb_up</i>
+                            </span> 13</span>
+                    </a>
+                </div>
+                <div class="col-md-10 total_comment">
+                    <button class="btn btn-border-lightgrn">
+                        <i class="material-icons">thumb_up</i> Like</button>
+                    <button class="btn btn-border-lightgrn">
+                        <i class="material-icons">comment</i> Comment</button>
+                    <button class="btn btn-border-lightgrn">
+                        <i class="material-icons">style</i> Vote</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

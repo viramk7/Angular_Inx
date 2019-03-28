@@ -1,0 +1,103 @@
+<form (ngSubmit)="onSave(f)" #f="ngForm">
+  <div class="fixhit_newsfeed mb10">
+    <div class="transparent_bg">
+      <div class="grey_bg_vote col-md-5 col-sm-12">
+        <div class="full_width">
+          <p class="font18 title_purple mt10 mb10">Vote
+            <!-- <span class="vote_close pull-right pointer">
+              <a (click)="onCancelVoteType('undefined')">
+              <i aria-hidden="true" class="fa fa-close"></i></a>
+            </span> -->
+          </p>
+        </div>
+        <!-- <a (click)="onCancelVoteType('undefined')">Cancel</a> -->
+        <div *ngFor="let vote of voteTypes">
+          <div class="vote_box pointer" [ngClass]="voteData.type == vote.value ? '' : 'color_gry'" (click)="onSelectVoteType(vote.value)">
+            <span class="trades" [ngClass]="voteData.type == vote.value ? (vote.class1) : ''" *ngIf="vote.viewVoteValue=='Strong Buy' || vote.viewVoteValue=='Strong Sell'; else noClass">
+              <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i>
+            </span>
+            <ng-template #noClass>
+              <span class="trades {{vote.class2}}" [ngClass]="voteData.type == vote.value ? (vote.class2) : ''">
+                <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i>
+              </span>
+            </ng-template>
+            <span class="trades_text" [ngClass]="voteData.type == vote.value ? (vote.class2) : ''"> {{vote.viewVoteValue}}</span>
+          </div>
+        </div>
+        <div class="vote_box pointer color_gry" [ngClass]="voteData.type=='undefined'? 'active': ''" (click)="onCancelVoteType('undefined')">
+          <span class="trades">
+            <i class="fa fa-close" aria-hidden="true"></i>
+          </span>
+          <span class="trades_text"> No Vote</span>
+        </div>
+
+        <!-- <div>
+          <div class="vote_box pointer" (click)="onSelectVoteType(vote.value)">
+            <span class="trades buy">
+              <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i>
+            </span>
+            <span class="trades_text buy"> buy</span>
+          </div>
+          <div class="vote_box pointer color_gry" (click)="onSelectVoteType(vote.value)">
+            <span class="trades sell">
+              <i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i>
+            </span>
+            <span class="trades_text sell"> sell</span>
+          </div>
+        </div> -->
+
+      </div>
+      <div class="row white_bg_border">
+        <div class="col-md-12">
+          <div class="profile_fix80">
+            <a>
+              <img *ngIf="user.imageUrlMedium; else noUserImage" [src]="user.imageUrlMedium" class="img-circle grn_circle" alt="Image"
+                width="80" height="80">
+              <ng-template #noUserImage>
+                <img src="images/user.png" class="img-circle grn_circle" alt="Image" width="80" height="80">
+              </ng-template>
+            </a>
+          </div>
+          <div class="profile_fix_content80 color_gry font16">
+            <span class="ellipsis col-md-5">{{user.firstName}}, Post a vote or a Comment</span>
+            <form class="mt30" (ngSubmit)="onSave(f)" #f="ngForm">
+              <div class="row mb0">
+                <div class="input-field col-md-5 col-sm-12">
+                  <ng2-completer name="symbol" value="voteData.symbol" [(ngModel)]="voteData.symbol" #symbol="ngModel" [datasource]="dataSymbol"
+                    [minSearchLength]="2" [placeholder]="'Enter stock symbol'" (selected)="onSymbolSelected($event)" [textSearching]="'Please wait...'"
+                    [inputClass]="(symbol.valid) ? 'form-control' : 'form-control form-control-inline'" required></ng2-completer>
+                  <!-- <div *ngIf="!symbol.valid && symbol.touched" class="text-danger">Symbol is required
+                  </div>
+                  <div>
+                    <p *ngIf="!selectedData && symbol.dirty" class="text-danger">InValid Symbol</p>
+                  </div> -->
+                  <div class="text-danger" *ngIf="symbol.touched">
+                    <span *ngIf="symbol.errors?.required; else noSymbol">Symbol is required</span>
+                    <ng-template #noSymbol>
+                      <span *ngIf="!selectedData && symbol.dirty">Invalid symbol</span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="input-field col-md-12 col-sm-12" *ngIf="voteData.name">
+                  <label for="name" class="col-md-6 row label_rel">Name: {{voteData.name}}</label>
+                </div>
+                <div class="input-field col-md-12 col-sm-12" *ngIf="voteData.exchange">
+                  <label for="exchange" class="col-md-6 row label_rel">Exchange: {{voteData.exchange}}</label>
+                  <!-- <input id="takeon" type="text" class="validate"> -->
+                </div> 
+                <div class="input-field col-md-12 col-sm-12 mt50">
+                  <input id="comments" class="form-control" type="text" name="comments" value="voteData.comments" [(ngModel)]="voteData.comments">
+                  <!-- <label for="takeon" class="col-md-12">What's your take on it?</label> -->
+                  <label for="comments" class="col-md-12">Comments</label>
+                </div>
+                <div class="input-field col-md-6 col-sm-12">
+                  <button class="btn waves-effect waves-light dark_grn full_width" type="submit" name="action" [disabled]="(voteData.name=='Unrecognized Stock' || f.invalid) || !selectedData">Post</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

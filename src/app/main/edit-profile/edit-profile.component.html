@@ -1,0 +1,34 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+    <p class="color_grn font18 mt20 font_uc">
+      <span class="pull-left">Upload Image</span>
+    </p>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form class="col s12" (ngSubmit)="onSave(f)" #f="ngForm">
+        <div class="row">
+          <div class="input-field col s5">
+            <div class="file-upload">
+              <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+            </div>
+            <img-cropper *ngIf="!user.imageUrlMedium || imageFile" #cropper [image]="imageData" [settings]="cropperSettings"></img-cropper>
+            <br>
+            <span class="result rounded" *ngIf="imageData.image">
+              <img [src]="imageData.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+            </span>
+            <span class="result rounded" *ngIf="!imageData.image && user.imageUrlMedium">
+              <img [src]="user.imageUrlMedium" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn waves-effect waves-light dark_grn full_width" type="submit" name="action">Upload Image</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

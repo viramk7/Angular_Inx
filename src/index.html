@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Stockteamup</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+
+</html>
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1691719303417923",
+    enable_page_level_ads: true
+  });
+</script> -->
+<script type="text/javascript">
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 50) {
+      $('#head_fix').addClass('navbar-fixed-top');
+    } else {
+      $('#head_fix').removeClass('navbar-fixed-top');
+    }
+  });
+
+  $(document).on('click', function (event) {
+    if (!$(event.target).closest('.navbar-right').length) {
+      let navbar = document.getElementById("navbar");
+      if (navbar) {
+        navbar.classList.remove('in')
+      }
+    }
+  });
+</script>

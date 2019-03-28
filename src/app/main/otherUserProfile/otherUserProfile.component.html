@@ -1,0 +1,270 @@
+<div class="swiper-container white_bg">
+    <div class="row">
+        <div class="col-md-2 clearfix pull-left">
+            <button class="btn dark_grn slider_back full_width" type="submit" name="action" (click)="backToProfile()">Back</button>
+        </div>
+    </div>
+    <swiper [config]="config" [initialize]="isShowSlider" #usefulSwiper>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let otherUsersProfile of otherUsersProfiles">
+                <div class="profile_details">
+                    <div class="container">
+                        <div class="fixhit3">
+                            <div class="white_bg">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2 class="title_green mt15">{{otherUsersProfile.firstName}} {{otherUsersProfile.lastName}}</h2>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-2">
+                                        <a class="profile_img">
+                                            <img *ngIf="otherUsersProfile.imageUrlSmall" src="{{otherUsersProfile.imageUrlSmall}}" alt="Image" width="130" height="130">
+                                            <img *ngIf="otherUsersProfile.imageUrlSmall == null" src="images/user.png" alt="Image" width="130" height="130">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-9 fullwid">
+                                        <p class="color_blk">This is other user profile</p>
+                                        <!-- <div class="col-md-6 text-center"> -->
+                                        <ul class="trophy_rates_left">
+                                            <li *ngFor="let badge of groupBadges" class="img-circle text-center pointer" title="{{badge.badgeName}}: {{badge.badgeDescription}}"
+                                                [popoverTitle]="badge.badgeName" [popover]="badge.badgeDescription" [popoverCloseOnClickOutside]="true"
+                                                popoverPlacement="top">
+                                                <img *ngIf="badge.badgeIconUrl; else defaultTrophy" class="" [src]="badge.badgeIconUrl" alt="Image" width="30" height="">
+                                                <ng-template #defaultTrophy>
+                                                    <img src="images/trophy.png" class="" alt="Image" width="30" height="">
+                                                </ng-template>
+                                            </li>
+                                        </ul>
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination mb30"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </swiper>
+
+    <div class="fixhit3 container" style="width: 90%; float: none;">
+        <div class="transparent_bg">
+            <div class="col-md-12 mt10">
+                <div class="col-md-6 custom_dropdown">
+                    <h2 class="title_green">{{groupData?.name}}</h2>
+                    <mat-form-field>
+                        <mat-select name="gameType" [(ngModel)]="selectedGameType" #gameType="ngModel">
+                            <mat-option [value]="gameType.value" *ngFor="let gameType of gameTypes" (click)="onGetGameId(gameType.value)">
+                                {{gameType.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-6">
+                    <ul class="trophy_rates_left">
+                        <li *ngFor="let badge of groupBadges" class="img-circle text-center" title="{{badge.badgeName}}: {{badge.badgeDescription}}"
+                            [popoverTitle]="badge.badgeName" [popover]="badge.badgeDescription" [popoverCloseOnClickOutside]="true"
+                            popoverPlacement="bottom">
+                            <img *ngIf="badge.badgeIconUrl; else defaultTrophy" [src]="badge.badgeIconUrl" alt="Image" width="30" height="">
+
+                            <ng-template #defaultTrophy>
+                                <img src="images/trophy.png" alt="Image" width="30" height="">
+                            </ng-template>
+                        </li>
+                    </ul>
+                </div> -->
+                <div class="clearfix "></div>
+                <div class="row mt30">
+                    <div class="col-md-3 text-center">
+                        <img *ngIf="groupData?.imageUrl; else noGroupImage" [src]="groupData.imageUrl" width="100" height="auto" alt="Image">
+                        <ng-template #noGroupImage>
+                            <img src="images/placeimg.png" width="100" height="auto" alt="Image">
+                        </ng-template>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row" *ngFor="let insight of insightProfile">
+                            <div class="col-md-3 text-center">
+                                <h3 class="title_purple scroll-overflow">{{insight.value | currency:"CAD":"symbol-narrow"}}</h3>
+                                <small class="color_gry upcase">Your Portfolio Value</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="title_purple">{{insight.aggregateVotes | number : '1.2-2'}}%</h3>
+                                <small class="color_gry upcase">Return</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="title_purple">{{insight.rank | ordinal}}</h3>
+                                <small class="color_gry upcase">Ranked</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 mt30">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#votesTab" data-toggle="tab">Votes</a>
+                            </li>
+                            <li>
+                                <a href="#recommendationTab" data-toggle="tab">Insight</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="votesTab">
+                                <span *ngIf="otherUserVotes.length > 0; else noMyVoteFound">
+                                    <div class="table-responsive">
+                                        <table class="table mt10">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">Stock</th>
+                                                    <th class="text-center">Vote</th>
+                                                    <th class="text-right">Today's Change</th>
+                                                    <th class="text-right">Portfolio</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div>
+                                                    <popover-content #myPopover [closeOnClickOutside]="true">
+                                                        <span *ngIf="isShowPopover">
+                                                            <b>Name:</b> {{stockData.name}}
+                                                            <br>
+                                                            <b>Exchange:</b> {{stockData.exchange}}
+                                                            <br>
+                                                            <b>Industry:</b> {{stockData.industry}}
+                                                        </span>
+                                                    </popover-content>
+                                                </div>
+                                                <tr *ngFor="let vote of otherUserVotes; let i = index" (click)="getSearchStock(vote.stockSymbol)" class="pointer" [popoverCloseOnClickOutside]="true"
+                                                    [popover]="myPopover">
+                                                    <td>
+                                                        <strong>{{vote.symbol}}</strong>
+                                                        <br>
+                                                        <small>{{vote.companyName}}</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h1>{{vote.voteDetail?.voteVoteType}}</h1>
+                                                        <app-vote-type [voteTypeId]="vote.voteDetail?.voteVoteType"></app-vote-type>
+                                                    </td>
+                                                    <td class="text-right" *ngIf="vote.voteDetail?.stockDelta != null; else noStockDelta">{{vote.voteDetail?.stockDelta}}%</td>
+                                                    <ng-template #noStockDelta>
+                                                        <td class="text-right">-</td>
+                                                    </ng-template>
+                                                    <td class="text-right" *ngIf="vote.voteDetail?.portfolioValue != null; else noPortfolioValue">{{vote.voteDetail?.portfolioValue | currency:"CAD":"symbol-narrow"}}</td>
+                                                    <ng-template #noPortfolioValue>
+                                                        <td class="text-right">-</td>
+                                                    </ng-template>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </span>
+                                <ng-template #noMyVoteFound>
+                                    <div class="row mt20">
+                                        <h6>No Votes found!</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane fade" id="recommendationTab">
+                                <span *ngIf="insightData.length > 0; else noRecommendationFound">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>{{insightData[0].userFirstName}}, you prefer to {{insightData[0].tradeStrategyName}}
+                                                in
+                                                <span class="color_blk">{{insightData[0].stockSectorName}} </span>stocks, but you are most profitable
+                                                when {{insightData[1].tradeStrategyName}} in {{insightData[1].stockSectorName}}
+                                                <span class="color_blk">{{insightData[1].stockSectorName}}</span>.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="">This strategy you used the most:</p>
+                                            <a class="btn btn-thin" href="#investment_group">{{insightData[0].stockSectorName + ' '+ insightData[0].tradeStrategyName}}
+                                            </a>
+                                            <table class="table mt30">
+                                                <thead>
+                                                    <tr>
+                                                        <th>User Image</th>
+                                                        <th>Stock</th>
+                                                        <th>Vote</th>
+                                                        <th>Today's Change</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let vote1 of bestVote1">
+                                                        <td>
+                                                            <img *ngIf="vote1.userDetail?.imageUrlSmall" [src]="vote1.userDetail?.imageUrlSmall" width="50" height="50" class="img-circle grn_circle pointer"
+                                                                alt="Image">
+                                                            <br>
+                                                            <small>{{vote1.userFirstName}}</small>
+                                                        </td>
+                                                        <td>
+                                                            <strong>{{vote1.stockSymbol}}</strong>
+                                                            <br>
+                                                            <small>{{vote1.stockCompanyName}}</small>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <app-vote-type [voteTypeId]="vote1.voteVoteType"></app-vote-type>
+                                                        </td>
+                                                        <td class="text-right">{{vote1.stockDelta | number : '1.2-2'}}%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="">This is what you are best at:</p>
+                                            <a class="btn btn-thin" href="#investment_group">{{insightData[1].stockSectorName + ' '+ insightData[1].tradeStrategyName}}</a>
+                                            <table class="table mt30">
+                                                <thead>
+                                                    <tr>
+                                                        <th>User Image</th>
+                                                        <th>Stock</th>
+                                                        <th>Vote</th>
+                                                        <th>Today's Change</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let vote2 of bestVote2">
+                                                        <td>
+                                                            <img *ngIf="vote2.userDetail?.imageUrlSmall" [src]="vote2.userDetail?.imageUrlSmall" width="50" height="50" class="img-circle grn_circle pointer"
+                                                                alt="Image">
+                                                            <br>
+                                                            <small>{{vote2.userFirstName}}</small>
+                                                        </td>
+                                                        <td>
+                                                            <strong>{{vote2.stockSymbol}}</strong>
+                                                            <br>
+                                                            <small>{{vote2.stockCompanyName}}</small>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <app-vote-type [voteTypeId]="vote2.voteVoteType"></app-vote-type>
+                                                        </td>
+                                                        <td class="text-right">{{vote2.stockDelta | number : '1.2-2'}}%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </span>
+                                <ng-template #noRecommendationFound>
+                                    <div class="row mt20">
+                                        <h6>No Insights to show!</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

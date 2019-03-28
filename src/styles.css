@@ -1,0 +1,126 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.black-overlay{
+    position: fixed !important;
+}
+
+@media (min-width: 768px){
+    .modal-md-sm {
+        width: 467px !important;
+    }
+}
+
+.mat-custom-active{
+    background: rgba(0,0,0,.04);
+}
+
+.pointer{
+	cursor: pointer;
+} 
+
+.hamburger {
+    padding: 15px 15px;
+    display: inline-block;
+    cursor: pointer;
+    transition-property: opacity, filter;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible; }
+    .hamburger:hover {
+      opacity: 0.7; }
+    .hamburger.is-active:hover {
+      opacity: 0.7; }
+    .hamburger.is-active .hamburger-inner,
+    .hamburger.is-active .hamburger-inner::before,
+    .hamburger.is-active .hamburger-inner::after {
+      background-color: #fff; }
+
+    .hamburger-inner {
+        display: block;
+        top: 50%;
+        margin-top: -2px; }
+    .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+          width: 30px;
+          height: 2px;
+          background-color: #fff;
+          border-radius: 3px;
+          position: absolute;
+          transition-property: transform;
+          transition-duration: 0.15s;
+          transition-timing-function: ease; }
+    .hamburger-inner::before, .hamburger-inner::after {
+          content: "";
+          display: block; }
+    .hamburger-inner::before {
+          top: -10px; }
+    .hamburger-inner::after {
+          bottom: -10px; }
+    .hamburger--squeeze .hamburger-inner {
+            transition-duration: 0.075s;
+            transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); }
+    .hamburger--squeeze .hamburger-inner::before {
+              transition: top 0.075s 0.12s ease, opacity 0.075s ease; }
+    .hamburger--squeeze .hamburger-inner::after {
+              transition: bottom 0.075s 0.12s ease, transform 0.075s cubic-bezier(0.55, 0.055, 0.675, 0.19); }
+          
+    .hamburger--squeeze.is-active .hamburger-inner {
+            transform: rotate(45deg);
+            transition-delay: 0.12s;
+            transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+    .hamburger--squeeze.is-active .hamburger-inner::before {
+              top: 0;
+              opacity: 0;
+              transition: top 0.075s ease, opacity 0.075s 0.12s ease; }
+    .hamburger--squeeze.is-active .hamburger-inner::after {
+              bottom: 0;
+              transform: rotate(-90deg);
+              transition: bottom 0.075s ease, transform 0.075s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1); }      
+    .main-nav button { 
+                width: 30px;
+                height: 30px;
+                position: relative;
+    }
+    .mb0 {margin-bottom: 0;}
+    .mb5 {margin-bottom: 5px;}
+    .mt10 {margin-top: 10px;}
+    .mb10 {margin-bottom: 10px;}
+    .mt13 {margin-top: 13px !important;}
+    .mt15 {margin-top: 15px;}
+    .mt20 {margin-top: 20px;}
+    .mb20 {margin-bottom: 20px;} 
+    .pt20 {padding-top: 20px;}
+    .pb20 {padding-bottom: 20px;}
+    .mt30 {margin-top: 30px;}
+    .mb30 {margin-bottom: 30px;}
+    .pt30 {padding-top: 30px;}
+    .pb30 {padding-bottom: 30px;}
+    .mt50 {margin-top: 50px;}
+    .mb50 {margin-bottom: 50px;}
+    .mt70 {margin-top: 70px;}
+    .mb70 {margin-bottom: 70px;}
+    .mb160 {margin-bottom: 160px;}
+    .mb80 {margin-bottom: 80px;}
+    .mb100 {margin-bottom: 100px;}
+    .pt50 {padding-top: 50px;}
+    .pb50 {padding-bottom: 50px;}
+    
+    .ml10 {margin-left:10px !important; }
+    .ml20 {margin-left:20px; }
+    .ml30 {margin-left:30px; }
+        
+    popover-content div:first-child {
+        z-index: 98;
+    }
+    .completer-holder input.completer-input:focus, .completer-holder input.completer-input:hover {border-bottom: 1px solid #39435F !important;}
+
+
+    .scroll-overflow{
+        overflow: auto;
+    }

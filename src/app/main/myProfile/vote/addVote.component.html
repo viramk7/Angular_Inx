@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" (click)="onClose()">&times;</button>
+        <p class="color_grn font18 mt20 font_uc">Add Vote</p>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <form class="col s12" (ngSubmit)="onSave(f)" #f="ngForm">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <ng2-completer name="symbol" value="voteData.symbol" [(ngModel)]="voteData.symbol" #symbol="ngModel" [datasource]="dataSymbol"
+                            [minSearchLength]="2" [placeholder]="'Search for symbol'" (selected)="onSymbolSelected($event)" [textSearching]="'Please wait...'"
+                            [inputClass]="(symbol.valid) ? 'form-control' : 'form-control form-control-inline'" required></ng2-completer>
+                        <div *ngIf="!symbol.valid && symbol.touched" class="text-danger">Symbol is required
+                        </div>
+                    </div>
+
+                    <div class="input-field col s12" *ngIf="voteData.exchange">
+                        <br>
+                        <!-- <input id="exchange" type="text" name="exchange" value="voteData.exchange" [(ngModel)]="voteData.exchange"> -->
+                        <label for="exchange">Exchange: {{voteData.exchange}}</label>
+                    </div>
+                    <div class="input-field col s12 custom_dropdown">
+                        <!-- <mat-form-field>
+                            <mat-select placeholder="Select A Vote Type" name="voteType" [(ngModel)]="voteData.type" #voteType="ngModel" required>
+                                <mat-option [value]="voteType.value" *ngFor="let voteType of voteTypes">
+                                    {{voteType.viewVoteValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="voteType.errors?.required && voteType.touched">VoteType is Required</mat-error>
+                        </mat-form-field> -->
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="voteData.type" id="voteType" name="voteType">
+                                <option class="option_hit" value="" disabled selected>Select vote type</option>
+                                <option class="option_hit" *ngFor="let voteType of voteTypes" [value]="voteType.value">{{voteType.viewVoteValue}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="comments" type="text" name="comments" value="voteData.comments" [(ngModel)]="voteData.comments">
+                        <label for="comments">Comments</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn waves-effect waves-light dark_grn full_width mb10" type="submit" name="action" [disabled]="!f.valid">Add Vote</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
